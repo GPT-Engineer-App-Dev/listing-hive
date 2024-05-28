@@ -1,7 +1,7 @@
 import { Box, Container, Flex, Heading, Input, VStack, Text, HStack, Button } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Link as RouterLink } from "react-router-dom";
 
 const Index = () => {
   const [jobs, setJobs] = useState([]);
@@ -42,6 +42,7 @@ const Index = () => {
             <Text>Company: {job.company}</Text>
             <Text>Location: {job.location}</Text>
             <Text>Posted: {job.posted}</Text>
+            <Button as={RouterLink} to={`/apply/${index}`} colorScheme="teal" mt={2}>Apply</Button>
           </Box>
         ))}
       </VStack>
