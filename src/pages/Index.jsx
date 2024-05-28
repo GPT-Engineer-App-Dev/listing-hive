@@ -1,7 +1,16 @@
 import { Box, Container, Flex, Heading, Input, VStack, Text, HStack, Button } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const storedJobs = JSON.parse(localStorage.getItem("jobs")) || [];
+    setJobs(storedJobs);
+  }, []);
+
   return (
     <Container maxW="container.xl" p={4}>
       {/* Navigation Bar */}
@@ -12,6 +21,7 @@ const Index = () => {
           <Button variant="link" color="white">Jobs</Button>
           <Button variant="link" color="white">About</Button>
           <Button variant="link" color="white">Contact</Button>
+        <Button as={Link} to="/add-job" colorScheme="teal">Post a Job</Button>
         </HStack>
       </Flex>
 
@@ -26,24 +36,14 @@ const Index = () => {
 
       {/* Job Listings */}
       <VStack spacing={8} align="stretch">
-        <Box p={4} shadow="md" borderWidth="1px">
-          <Heading size="md">Software Engineer</Heading>
-          <Text>Company: TechCorp</Text>
-          <Text>Location: San Francisco, CA</Text>
-          <Text>Posted: 2 days ago</Text>
-        </Box>
-        <Box p={4} shadow="md" borderWidth="1px">
-          <Heading size="md">Product Manager</Heading>
-          <Text>Company: Innovate Inc.</Text>
-          <Text>Location: New York, NY</Text>
-          <Text>Posted: 1 week ago</Text>
-        </Box>
-        <Box p={4} shadow="md" borderWidth="1px">
-          <Heading size="md">UX Designer</Heading>
-          <Text>Company: DesignPro</Text>
-          <Text>Location: Remote</Text>
-          <Text>Posted: 3 days ago</Text>
-        </Box>
+        {jobs.map((job, index) => (
+          <Box key={index} p={4} shadow="md" borderWidth="1px">
+            <Heading size="md">{job.title}</Heading>
+            <Text>Company: {job.company}</Text>
+            <Text>Location: {job.location}</Text>
+            <Text>Posted: {job.posted}</Text>
+          </Box>
+        ))}
       </VStack>
     </Container>
   );
